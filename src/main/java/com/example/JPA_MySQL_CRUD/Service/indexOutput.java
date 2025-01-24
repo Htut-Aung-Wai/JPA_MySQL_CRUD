@@ -1,11 +1,12 @@
 package com.example.JPA_MySQL_CRUD.Service;
 
 
-import com.example.JPA_MySQL_CRUD.Entity.Create;
+import com.example.JPA_MySQL_CRUD.Entity.User;
 import com.example.JPA_MySQL_CRUD.Repository.JPA_interface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Service
 public class indexOutput {
@@ -18,13 +19,14 @@ public class indexOutput {
         this.jpaInterface = jpaInterface;
     }
 
-    public void indexSave(Create create)
+    public User indexSave(User user)
     {
-        jpaInterface.save(create);
+        return jpaInterface.save(user);
     }
 
-    public Create get(String id) {
-        return jpaInterface.findById(id).orElse(null);
+    public List<User> get()
+    {
+        return jpaInterface.findAll();
     }
 
 
