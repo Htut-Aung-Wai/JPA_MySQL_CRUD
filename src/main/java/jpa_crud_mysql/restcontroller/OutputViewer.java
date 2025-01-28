@@ -33,7 +33,7 @@ public class OutputViewer {
     //get all user
     @GetMapping()
     public Response indexOutput() {
-        return new Response("Success", io.get());
+        return io.get();
     }
 
     //Find user with id
@@ -54,4 +54,32 @@ public class OutputViewer {
         return new Response("Success", null);
 
     }
+
+    //The rest are usage of Dervied Method and Query Method using JPA.
+    //byName
+    @GetMapping("/name/{name}")
+    public Response getUsersByEmail(@PathVariable String name) {
+        return io.findByName(name);
+
+    }
+
+    //byNameAndAge
+    @GetMapping("/name/{name}/age/{age}")
+    public Response getUsersByNameAndAge(@PathVariable String name, @PathVariable int age) {
+        return io.getUsersByNameAndAge(name, age);
+    }
+
+    //Custom Sql Query
+    //byName
+    @GetMapping("/native/{name}")
+    public Response getUsersByNameNativeQuery(@PathVariable String name) {
+        return io.findUsersByNameNative(name);
+    }
+
+    //byNameAndAge
+    @GetMapping("/native/{name}/{age}")
+    public Response getUsersByNameAndAgeNativeQuery(@PathVariable String name, @PathVariable int age) {
+        return io.findUsersByNameAndAgeNative(name, age);
+    }
+
 }

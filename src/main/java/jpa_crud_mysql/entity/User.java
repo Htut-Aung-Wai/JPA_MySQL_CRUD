@@ -11,6 +11,16 @@ public class User {
     private Long id;
     @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "age", nullable = false)
+    private int age;
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public Long getId() {
         return id;
