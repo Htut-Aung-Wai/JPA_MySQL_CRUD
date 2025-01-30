@@ -4,7 +4,11 @@ package jpa_crud_mysql.restcontroller;
 import jpa_crud_mysql.Response.Response;
 import jpa_crud_mysql.dto.CreateUser;
 import jpa_crud_mysql.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/index")
@@ -13,6 +17,10 @@ public class UserController {
     private final UserService userService;
     private final CreateUser createUser;
     private Response response;
+
+    //for i18n test
+    @Autowired
+    private MessageSource messageSource;
 
 
     public UserController(UserService io, CreateUser createUser) {
@@ -82,6 +90,15 @@ public class UserController {
     @GetMapping("/native/{name}/{age}")
     public Response getUsersByNameAndAgeNativeQuery(@PathVariable String name, @PathVariable int age) {
         return userService.findUsersByNameAndAgeNative(name, age);
+    }
+
+    //For i18n test
+    @GetMapping("/greet")
+    public String greet(@RequestParam(value = "lang", defaultValue = "en") String lang) {
+        Locale locale = new Locale(lang);  // Get locale based on the lang parameter
+        String greeting = messageSource.getMessage("greeting", null, locale);
+        String welcome = messageSource.getMessage("welcome", null, locale);
+        return greeting + "! " + welcome;
     }
 
 }
