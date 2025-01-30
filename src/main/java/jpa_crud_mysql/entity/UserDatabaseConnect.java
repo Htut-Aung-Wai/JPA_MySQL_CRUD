@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class UserDatabaseConnect {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,6 +13,16 @@ public class User {
     private String name;
     @Column(name = "age", nullable = false)
     private int age;
+
+    public UserDatabaseConnect() {
+
+    }
+
+    public UserDatabaseConnect(Long id, String name, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
 
     public int getAge() {
         return age;

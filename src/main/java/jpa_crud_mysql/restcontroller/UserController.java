@@ -2,30 +2,32 @@ package jpa_crud_mysql.restcontroller;
 
 
 import jpa_crud_mysql.Response.Response;
-import jpa_crud_mysql.entity.User;
-import jpa_crud_mysql.service.OutputViewerService;
+import jpa_crud_mysql.dto.CreateUser;
+import jpa_crud_mysql.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/index")
-public class OutputViewer {
+public class UserController {
 
-    private final OutputViewerService io;
-
+    private final UserService userService;
+    private final CreateUser createUser;
     private Response response;
 
 
-    public OutputViewer(OutputViewerService io) {
+    public UserController(UserService io, CreateUser createUser) {
 
 
-        this.io = io;
+        this.userService = io;
+        this.createUser = createUser;
     }
 
+    //This is the CRUD operation.
     //save user
     @PostMapping
-    public Response indexSave(@RequestBody User user) {
+    public Response indexSave(@RequestBody CreateUser user) {
 
-        io.indexSave(user);
+        userService.indexSave(user);
         return new Response("Success", null);
 
     }
@@ -33,19 +35,19 @@ public class OutputViewer {
     //get all user
     @GetMapping()
     public Response indexOutput() {
-        return io.get();
+        return userService.get();
     }
 
     //Find user with id
     @GetMapping("/{id}")
     public Response getUserById(@PathVariable Long id) {
-        return new Response("Success", io.getUserById(id));
+        return new Response("Success", userService.getUserById(id));
     }
 
     //Update
     @PutMapping("/{id}")
-    public Response updateUser(@PathVariable Long id, @RequestBody User userDetails) {
-        return new Response("Success", io.updateUser(id, userDetails));
+    public Response updateUser(@PathVariable Long id, @RequestBody CreateUser userDetails) {
+        return new Response("Success", userService.updateUser(id, userDetails));
     }
 
     //Delete
@@ -55,31 +57,31 @@ public class OutputViewer {
 
     }
 
-    //The rest are usage of Dervied Method and Query Method using JPA.
+    //The rest are usage of Derived Method and Query Method using JPA.
     //byName
     @GetMapping("/name/{name}")
     public Response getUsersByEmail(@PathVariable String name) {
-        return io.findByName(name);
+        return userService.findByName(name);
 
     }
 
     //byNameAndAge
     @GetMapping("/name/{name}/age/{age}")
     public Response getUsersByNameAndAge(@PathVariable String name, @PathVariable int age) {
-        return io.getUsersByNameAndAge(name, age);
+        return userService.getUsersByNameAndAge(name, age);
     }
 
     //Custom Sql Query
     //byName
     @GetMapping("/native/{name}")
     public Response getUsersByNameNativeQuery(@PathVariable String name) {
-        return io.findUsersByNameNative(name);
+        return userService.findUsersByNameNative(name);
     }
 
     //byNameAndAge
     @GetMapping("/native/{name}/{age}")
     public Response getUsersByNameAndAgeNativeQuery(@PathVariable String name, @PathVariable int age) {
-        return io.findUsersByNameAndAgeNative(name, age);
+        return userService.findUsersByNameAndAgeNative(name, age);
     }
 
 }
