@@ -6,8 +6,10 @@ import jpa_crud_mysql.dto.CreateUser;
 import jpa_crud_mysql.entity.UserDatabaseConnect;
 import jpa_crud_mysql.repository.JPA_interface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
 import java.util.Optional;
 
 
@@ -16,14 +18,15 @@ public class UserService {
 
     @Autowired
     private final JPA_interface jpaInterface;
-
     private final CreateUser createUser;
-
+    @Autowired
+    private MessageSource messageSource;
     private Response response;
 
     public UserService(JPA_interface jpaInterface, CreateUser user) {
         this.jpaInterface = jpaInterface;
         this.createUser = user;
+
     }
 
     //This is the CRUD operation.
@@ -36,7 +39,10 @@ public class UserService {
 
     //getAll
     public Response get() {
-        return new Response("Success", jpaInterface.findAll());
+
+        Locale locale = new Locale("my");
+        String success = messageSource.getMessage("success", null, locale);
+        return new Response(success, jpaInterface.findAll());
     }
 
     public Optional<UserDatabaseConnect> getUserById(Long id) {

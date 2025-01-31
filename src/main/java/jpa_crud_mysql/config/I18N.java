@@ -2,12 +2,14 @@ package jpa_crud_mysql.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
+import java.util.Locale;
+
+@Configuration
 public class I18N implements WebMvcConfigurer {
 
     // Configuring the MessageSource for i18n
@@ -22,10 +24,12 @@ public class I18N implements WebMvcConfigurer {
     // Configuring the Locale Resolver
     @Bean
     public AcceptHeaderLocaleResolver localeResolver() {
-        return new AcceptHeaderLocaleResolver();  // Resolves locale based on the Accept-Language header
+        AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
+        resolver.setDefaultLocale(Locale.ENGLISH);  // Default locale set to English
+        return resolver; // Resolves locale based on the Accept-Language header
     }
 
-    // Configuring Locale Change Interceptor
+   /* // Configuring Locale Change Interceptor
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
@@ -37,5 +41,5 @@ public class I18N implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());  // Add the interceptor to the registry
-    }
+    }*/
 }
