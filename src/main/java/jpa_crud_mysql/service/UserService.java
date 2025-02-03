@@ -19,6 +19,7 @@ public class UserService {
     @Autowired
     private final JPA_interface jpaInterface;
     private final CreateUser createUser;
+
     @Autowired
     private MessageSource messageSource;
     private Response response;
@@ -28,6 +29,8 @@ public class UserService {
         this.createUser = user;
 
     }
+
+
 
     //This is the CRUD operation.
     //save
@@ -40,7 +43,7 @@ public class UserService {
     //getAll
     public Response get() {
 
-        Locale locale = new Locale("my");
+        Locale locale = new Locale("my");  // Usage of local for i18n
         String success = messageSource.getMessage("success", null, locale);
         return new Response(success, jpaInterface.findAll());
     }

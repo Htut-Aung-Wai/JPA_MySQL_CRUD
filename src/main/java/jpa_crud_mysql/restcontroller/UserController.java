@@ -4,10 +4,13 @@ package jpa_crud_mysql.restcontroller;
 import jpa_crud_mysql.Response.Response;
 import jpa_crud_mysql.dto.CreateUser;
 import jpa_crud_mysql.service.UserService;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Locale;
 
 @RestController
@@ -48,20 +51,30 @@ public class UserController {
 
     //Find user with id
     @GetMapping("/{id}")
-    public Response getUserById(@PathVariable Long id) {
-        return new Response("Success", userService.getUserById(id));
+    public Response getUserById(@PathVariable Long id){
+
+
+        if(userService.getUserById(id).isPresent())
+                return new Response("Success", userService.getUserById(id));
+        else throw new IllegalArgumentException("Not found!!");
+
+
     }
 
     //Update
     @PutMapping("/{id}")
     public Response updateUser(@PathVariable Long id, @RequestBody CreateUser userDetails) {
-        return new Response("Success", userService.updateUser(id, userDetails));
+        if(userService.getUserById(id).isPresent())
+            return new Response("Success", userService.updateUser(id, userDetails));
+        else throw new IllegalArgumentException("Not found to update;");
     }
 
     //Delete
     @DeleteMapping("/{id}")
     public Response deleteUser(@PathVariable Long id) {
-        return new Response("Success", null);
+        if(userService.getUserById(id).isPresent())
+            return new Response("Success", null);
+        else throw new IllegalArgumentException("Not found to delete;");
 
     }
 
@@ -92,6 +105,7 @@ public class UserController {
         return userService.findUsersByNameAndAgeNative(name, age);
     }
 
+    //This is i18ntest with locale with config under config directory I18N
     //For i18n test
     @GetMapping("/greet")
     public String greet(@RequestParam(value = "lang", defaultValue = "en") String lang) {
@@ -100,5 +114,9 @@ public class UserController {
         String welcome = messageSource.getMessage("welcome", null, locale);
         return greeting + "! " + welcome;
     }
+
+
+    //This is exception handling usage locally
+
 
 }
