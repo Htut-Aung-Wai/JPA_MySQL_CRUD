@@ -38,6 +38,7 @@ public class UserController {
     @PostMapping
     public Response indexSave(@RequestBody CreateUser user) {
 
+
         userService.indexSave(user);
         return new Response("Success", null);
 
@@ -53,10 +54,8 @@ public class UserController {
     @GetMapping("/{id}")
     public Response getUserById(@PathVariable Long id){
 
+        return new Response("Success", userService.getUserById(id));
 
-        if(userService.getUserById(id).isPresent())
-                return new Response("Success", userService.getUserById(id));
-        else throw new IllegalArgumentException("Not found!!");
 
 
     }
@@ -73,7 +72,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public Response deleteUser(@PathVariable Long id) {
         if(userService.getUserById(id).isPresent())
-            return new Response("Success", null);
+            return userService.deleteUser(id);
         else throw new IllegalArgumentException("Not found to delete;");
 
     }

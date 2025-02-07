@@ -7,6 +7,7 @@ import jpa_crud_mysql.entity.UserDatabaseConnect;
 import jpa_crud_mysql.repository.JPA_interface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
@@ -21,14 +22,23 @@ public class UserService {
     private final CreateUser createUser;
 
     @Autowired
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
     private Response response;
+    String success="";
 
-    public UserService(JPA_interface jpaInterface, CreateUser user) {
+    // Usage of local for i18n
+    Locale locale = new Locale("my");
+
+
+    public UserService(JPA_interface jpaInterface, CreateUser user,MessageSource messageSource) {
         this.jpaInterface = jpaInterface;
         this.createUser = user;
+        this.messageSource=messageSource;
+        success = messageSource.getMessage("success", null, locale);
 
     }
+
+
 
 
 
@@ -43,13 +53,16 @@ public class UserService {
     //getAll
     public Response get() {
 
-        Locale locale = new Locale("my");  // Usage of local for i18n
-        String success = messageSource.getMessage("success", null, locale);
+         // Usage of local for i18n
+        //String success = messageSource.getMessage("success", null, locale);
         return new Response(success, jpaInterface.findAll());
     }
 
     public Optional<UserDatabaseConnect> getUserById(Long id) {
-        return jpaInterface.findById(id);
+
+        if(jpaInterface.findById(id).isPresent())
+            return jpaInterface.findById(id);
+        else throw new IllegalArgumentException("Not found!!");
     }
 
     // Update
@@ -62,7 +75,7 @@ public class UserService {
     // Delete
     public Response deleteUser(Long id) {
         jpaInterface.deleteById(id);
-        return new Response("Success", null);
+        return new Response(success, null);
     }
 
 
