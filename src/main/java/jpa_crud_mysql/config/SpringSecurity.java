@@ -1,5 +1,5 @@
 
-package jpa_crud_mysql.config;
+/*package jpa_crud_mysql.config;
 
 
 import org.springframework.context.annotation.Bean;
@@ -75,5 +75,5 @@ public class SpringSecurity {
 
 
 
-}
+}*/
 
