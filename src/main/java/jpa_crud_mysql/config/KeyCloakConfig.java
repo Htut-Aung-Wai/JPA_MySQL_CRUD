@@ -25,10 +25,14 @@ public class KeyCloakConfig {
     public static final String ADMIN = "Admin";
     public static final String USER = "User";
     private final JwtConverter jwtConverter;
+
+    private static final String[] AUTH_WHITELIST = {
+            "/index","/mail"
+    };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authz) ->
-                authz.requestMatchers(HttpMethod.GET, "/index").permitAll()
+                authz.requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.GET, "/index/name/**").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.GET, "/index/native/**").hasRole(USER)
                         .requestMatchers(HttpMethod.GET, "/index/greet").hasAnyRole(ADMIN,USER)

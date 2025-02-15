@@ -80,17 +80,21 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-spring-boot-starter</artifactId>
-            <version>${keycloak.version}</version> <!-- Use property for version -->
+            <version>${keycloak.version}</version> &lt;!&ndash; Use property for version &ndash;&gt;
         </dependency>
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-spring-security-adapter</artifactId>
-            <version>${keycloak.version}</version> <!-- Add this dependency -->
+            <version>${keycloak.version}</version> &lt;!&ndash; Add this dependency &ndash;&gt;
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
 
